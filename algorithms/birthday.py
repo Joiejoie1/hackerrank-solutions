@@ -1,0 +1,80 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'birthday' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER_ARRAY s
+#  2. INTEGER d
+#  3. INTEGER m
+#
+
+def birthday(s, d, m):
+    # Write your code here
+    count = 0
+    
+    # If the segment length id greater than the array length
+    if m > len(s):
+        return 0
+        
+    # Calculate the sum of the first window
+    window_sum = sum(s[:m])
+    
+    if window_sum == d:
+        count += 1
+        
+    # Slide the window
+    for i in range(m, len(s)):
+        window_sum += s[i]        # add next element
+        window_sum -= s[i - m]    # remove previous element
+        
+        if window_sum == d:
+            count += 1
+            
+    return count         
+    
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    s = list(map(int, input().rstrip().split()))
+
+    first_multiple_input = input().rstrip().split()
+
+    d = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    result = birthday(s, d, m)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+
+✅ Example 1 (from the problem)
+Input
+s = [1, 2, 1, 3, 2]
+d = 3
+m = 2
+
+Step-by-step segments (length = 2)
+Segment	Values	Sum
+s[0:2]	[1, 2]	3 ✅
+s[1:3]	[2, 1]	3 ✅
+s[2:4]	[1, 3]	4 ❌
+s[3:5]	[3, 2]	5 ❌
+Result
+
+✔️ Valid segments = 2
+
+Output: 2
